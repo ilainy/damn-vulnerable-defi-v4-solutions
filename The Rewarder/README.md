@@ -113,11 +113,11 @@ function test_theRewarder() public checkSolvedByPlayer {
 
 ### 6\.1 编译报错：类型隐式转换失败
 
-**报错信息**：`Invalid implicit conversion from struct Reward\[\] memory to bytes32\[\] memory`
+**报错信息**：`Invalid implicit conversion from struct Reward[] memory to bytes32[] memory`
 
-**成因**：V4 内置 `merkle\.getProof` 仅接收 `bytes32\[\]` 叶子数组，无法直接传入 Reward 结构体数组，V3/V4 接口不通用。
+**成因**：V4 内置 `merkle.getProof` 仅接收 `bytes32[]` 叶子数组，无法直接传入 Reward 结构体数组，V3/V4 接口不通用。
 
-**解决方案**：区分两类数据加载方式，`\_loadRewards\(\)` 获取叶子数组用于生成证明，`abi\.decode` 解析结构体用于读取奖励信息，不可混用。
+**解决方案**：区分两类数据加载方式，`_loadRewards()` 获取叶子数组用于生成证明，`abi.decode` 解析结构体用于读取奖励信息，不可混用。
 
 ### 6\.2 编译报错：ERC20 合约无法转为 IERC20
 
@@ -125,11 +125,11 @@ function test_theRewarder() public checkSolvedByPlayer {
 
 **成因**：原生合约实例无法隐式适配接口类型。
 
-**解决方案**：强制类型转换 `IERC20\(address\(token\)\)`。
+**解决方案**：强制类型转换 `IERC20(address(token))`。
 
 ### 6\.3 运行报错：MemoryOOG 内存溢出
 
-**成因**：在循环内部反复调用 `vm\.readFile / \_loadRewards` 读取解析 JSON 文件，循环迭代次数多，持续堆积内存，触发 EVM 内存上限溢出。
+**成因**：在循环内部反复调用 `vm.readFile / _loadRewards` 读取解析 JSON 文件，循环迭代次数多，持续堆积内存，触发 EVM 内存上限溢出。
 
 **解决方案**：所有文件读取、叶子节点加载逻辑**放到循环外仅执行一次**，循环内只复用内存数据。
 
@@ -157,8 +157,8 @@ function test_theRewarder() public checkSolvedByPlayer {
 
 重构默克尔叶子校验逻辑，读取白名单绑定的受益人地址，强制校验身份一致性：
 
-1. 叶子节点预哈希：`keccak256\(abi\.encodePacked\(beneficiary, amount\)\)`
+1. 叶子节点预哈希：`keccak256(abi.encodePacked(beneficiary, amount))`
 
-2. 合约内增加校验：`require\(beneficiary == msg\.sender, \&\#34;Not reward owner\&\#34;\)`
+2. 合约内增加校验：`require(beneficiary == msg.sender, "Not reward owner")`
 
 3. 申领记录绑定白名单受益人，而非调用者，彻底杜绝盗领漏洞
