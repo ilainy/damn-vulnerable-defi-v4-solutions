@@ -1,4 +1,4 @@
-# Unstoppable 题解
+# Unstoppable
 
 ## 一、题目简介
 
@@ -35,7 +35,7 @@ if (convertToShares(totalSupply) != balanceBefore) revert InvalidBalance();
 
 - `balanceBefore`：金库**链上真实代币余额**（客观数据，区块链不可篡改）；
 
-- `convertToShares\(totalSupply\)`：将金库**全部发行的用户份额**，换算为对应的代币资产数量；
+- `convertToShares(totalSupply)`：将金库**全部发行的用户份额**，换算为对应的代币资产数量；
 
 - 合约强制要求：**份额换算后的资产数量 必须严格等于 链上真实余额**，一旦不相等，直接回滚报错。
 
@@ -45,7 +45,7 @@ ERC20 代币原生支持 `transfer` 转账，攻击者可以**不经过合约任
 
 这会造成致命的数据错位：
 
-1. 正规用户存款：调用 `deposit`，合约同时**增加代币余额 \+ 增发用户份额**，两者数据同步；
+1. 正规用户存款：调用 `deposit`，合约同时**增加代币余额 + 增发用户份额**，两者数据同步；
 
 2. 攻击者直接转账：仅增加合约链上代币余额，**不会增发任何份额**。
 
@@ -57,7 +57,7 @@ ERC20 代币原生支持 `transfer` 转账，攻击者可以**不经过合约任
 
 ## 四、审计思路
 
-新手/审计人员遇到 ERC4626 金库合约，优先扫描以下 **高危关键词组合**，可快速定位同款漏洞：
+遇到 ERC4626 金库合约，先扫描以下 **高危关键词组合**，可快速定位同款漏洞：
 
 1. `totalAssets()`：读取合约真实链上余额；
 
@@ -71,7 +71,7 @@ ERC20 代币原生支持 `transfer` 转账，攻击者可以**不经过合约任
 
 ## 五、攻击 EXP
 
-攻击文件路径：`test/unstoppable/Unstoppable\.t\.sol`
+攻击文件路径：`test/unstoppable/Unstoppable.t.sol`
 
 一行核心代码，破坏数据一致性通关：
 
