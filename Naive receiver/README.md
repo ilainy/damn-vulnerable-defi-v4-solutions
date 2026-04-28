@@ -98,7 +98,7 @@ function _msgSender() internal view override returns (address) {
 
 2. 手续费由闪电贷接收合约承担，攻击者可强制目标 `FlashLoanReceiver` 扣费，10 次零额闪电贷即可掏空其 10 WETH 余额；
 
-3. 提款函数 `withdraw` 依靠 `\_msgSender\(\)` 识别管理员，无硬编码权限校验；
+3. 提款函数 `withdraw` 依靠 `_msgSender()` 识别管理员，无硬编码权限校验；
 
 4. 结合 Forwarder 元交易 \+ calldata 拼接地址，伪造管理员身份，调用提款函数掏空资金池 1000 WETH；
 
@@ -174,7 +174,7 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 2. **增加权限校验**：闪电贷仅允许白名单地址调用，禁止任意用户指定第三方合约扣费；
 
-3. **加固身份校验**：`\_msgSender` 禁止通过 calldata 拼接伪造地址，管理员权限硬编码校验；
+3. **加固身份校验**：`_msgSender` 禁止通过 calldata 拼接伪造地址，管理员权限硬编码校验；
 
 4. **限制批量调用权限**：multicall 增加管理员权限校验，防止批量执行恶意操作。
 
