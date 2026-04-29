@@ -38,7 +38,7 @@ function flashLoan(uint256 amount, address borrower, address target, bytes calld
 
 ### 关键漏洞分析
 
-整道题目有一处致命漏洞：`target\.functionCall\(data\);`
+整道题目有一处致命漏洞：`target.functionCall(data);`
 
 该代码作用：**允许调用者传入任意 target 合约、任意 calldata，让资金池合约代为执行任意外部函数调用**，无任何权限、白名单、调用范围校验。
 
