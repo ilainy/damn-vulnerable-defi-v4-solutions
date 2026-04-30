@@ -1,6 +1,6 @@
 # Naive Receiver
 
-## 一、题目概述
+## 一、题目简介
 
 本题为 Damn Vulnerable DeFi v4 第二题。
 
