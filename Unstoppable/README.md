@@ -69,11 +69,7 @@ ERC20 代币原生支持 `transfer` 转账，攻击者可以**不经过合约任
 
 只要合约**强制绑定份额总量与链上真实资产余额**，且无外部转账隔离逻辑，百分百存在 DoS 漏洞。
 
-## 五、攻击 EXP
-
-攻击文件路径：`test/unstoppable/Unstoppable.t.sol`
-
-一行核心代码，破坏数据一致性通关：
+## 五、EXP
 
 ```solidity
 function exploit() internal override {
