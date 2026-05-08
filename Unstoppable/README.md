@@ -117,3 +117,5 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 2. Yearn Finance Vault 极小金额引发份额通胀漏洞  
 [Verichains 技术复盘解析](https://blog.verichains.io/p/yearn-finance-and-the-16-wei-deposit)
 
+3. PrizeVault 奖金金库永久锁死（2024）  
+[Code4rena 官方审计漏洞报告](https://github.com/code-423n4/2024-03-pooltogether-findings/issues/44)
