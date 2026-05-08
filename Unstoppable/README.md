@@ -109,3 +109,13 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 该漏洞覆盖绝大多数 ERC4626 金库合约，是合约审计、DeFi CTF 必备知识点。
 
+## 九、历史相关真实事件
+> 本漏洞属于 **账本不一致 DoS / ERC4626 金库资产记账破坏** 类漏洞，在真实 DeFi 项目中多次出现，均由「外部直接转账打破余额与份额校验」引发，造成协议瘫痪、功能永久锁死。
+
+### 相关事件 & 审计报告链接
+1. Resupply 协议 ERC4626 金库捐赠汇率攻击（损失 956 万美元，2025）  
+[Olympix Security 漏洞深度复盘](https://olympix.security/blog/resupply-exploit-post-mortem-how-olympix-could-have-prevented-the-9-56m-loss)
+
+2. Yearn Finance Vault 极小金额引发份额通胀漏洞  
+[Verichains 技术复盘解析](https://blog.verichains.io/p/yearn-finance-and-the-16-wei-deposit)
+
