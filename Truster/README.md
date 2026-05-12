@@ -124,7 +124,7 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 ## 八、漏洞修复方案
 
-1. **禁用自定义外部调用**：删除可控的 `target\.functionCall\(data\)` 逻辑
+1. **禁用自定义外部调用**：删除可控的 `target.functionCall(data)` 逻辑
 
 2. **增加调用白名单**：仅允许合约调用指定可信地址与函数
 
