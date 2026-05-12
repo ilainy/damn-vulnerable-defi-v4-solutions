@@ -122,7 +122,7 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 4. **v4 专属规则适配**：满足单笔交易 nonce 限制
 
-## 八、漏洞修复方案
+## 八、修复方案
 
 1. **禁用自定义外部调用**：删除可控的 `target.functionCall(data)` 逻辑
 
@@ -134,5 +134,5 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 ## 九、总结
 
-Truster 是一道 DeFi 业务逻辑漏洞题，核心在于开发者过度开放合约权限，允许用户可控外部调用。攻击者可以利用该漏洞让合约自主授权，窃取全部资金。同时 DVD v4 新增的单笔交易限制，考对测试规则、链上交易 nonce 机制的理解。
+Truster 核心在于开发者过度开放合约权限，允许用户可控外部调用。攻击者可以利用该漏洞让合约自主授权，窃取全部资金。Truster 考对测试规则、链上交易 nonce 机制的理解。
 
