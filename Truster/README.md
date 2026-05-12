@@ -42,9 +42,9 @@ function flashLoan(uint256 amount, address borrower, address target, bytes calld
 
 该代码作用：**允许调用者传入任意 target 合约、任意 calldata，让资金池合约代为执行任意外部函数调用**，无任何权限、白名单、调用范围校验。
 
-## 三、审计刷题思维（扫代码流程）
+## 三、审计思维
 
-### 1\. 扫高危关键词
+### 1\. 扫关键词
 
 合约审计刷题通用技巧，看到以下关键词直接重点分析：
 
