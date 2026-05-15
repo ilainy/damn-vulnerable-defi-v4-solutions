@@ -136,3 +136,9 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped
 
 Truster 核心在于开发者过度开放合约权限，允许用户可控外部调用。攻击者可以利用该漏洞让合约自主授权，窃取全部资金。Truster 考对测试规则、链上交易 nonce 机制的理解。
 
+### 相关事件 & 审计报告链接
+Euler Finance 任意外部调用漏洞攻击（损失 1.96 亿美元，2023）  
+[CertiK 官方漏洞深度复盘](https://www.certik.com/blog/euler-finance-incident-analysis)  
+Platypus Finance 未校验外部调用盗币攻击（损失 850 万美元，2023）  
+[Immunefi 官方安全复盘](https://immunefi.com/blog/industry-trends/platypus-finance-hack-analysis/)  
+
