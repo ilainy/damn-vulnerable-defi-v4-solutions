@@ -98,7 +98,7 @@ function test_theRewarder() public checkSolvedByPlayer {
         }
     }
 
-    // 核心攻击：无身份校验，使用他人证明批量盗领所有奖励
+    // 无身份校验，使用他人证明批量盗领所有奖励
     distributor.claimRewards(claims, tokensToClaim);
 
     // 将盗取的全部资金转入recovery账户，完成题目要求
