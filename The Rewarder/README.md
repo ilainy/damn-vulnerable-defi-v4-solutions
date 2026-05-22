@@ -37,7 +37,7 @@ inputTokens[inputClaim.tokenIndex].transfer(msg.sender, inputClaim.amount);
 
 本质缺陷：**证明校验的是白名单数据，但是资金授权给任意调用者**。攻击者可以使用任意用户的合法默克尔证明，以自己的身份申领他人奖励。
 
-## 三、通用审计复盘（同类项目要点）
+## 三、审计复盘（同类项目要点）
 
 后续审计所有 **Merkle 代币分发/空投合约**，优先顶查以下核心点位：
 
