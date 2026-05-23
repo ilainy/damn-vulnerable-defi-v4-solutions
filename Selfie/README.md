@@ -84,7 +84,7 @@ function emergencyExit(address receiver) external onlyGovernance {
 
 ## 三、审计复盘（同类项目要点）
 
-后续审计所有 **闪电贷 + 链上治理 + 时间锁提案** 项目，优先顶查以下核心点位：
+后续审计所有 **闪电贷 + 链上治理 + 时间锁提案** 项目，优先以下点位：
 
 - 治理投票权是否使用**区块快照**，而非实时余额计算
 
