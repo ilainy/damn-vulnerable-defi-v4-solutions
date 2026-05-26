@@ -26,7 +26,27 @@
 
 合约 `execute` 权限校验逻辑存在根本性设计缺陷，开发者通过汇编硬编码固定偏移量读取函数选择器用于权限校验：固定从整体 calldata 的 **100 字节偏移位置**读取4字节选择器，以此判断操作是否授权。但实际执行逻辑会按照**标准 ABI 编码规则**解析 calldata 并执行对应函数。
 
-这就造成了**权限校验数据源 ≠ 实际执行数据源**的致命割裂：攻击者可手动构造恶意 calldata，在校验偏移位置放置合法授权函数选择器（`withdraw`）骗过权限检测，在真实执行区域放置高危未授权函数（`sweepFunds`），实现完全权限绕过。
+这就造成了**权限校验数据源 ≠ 实际执行数据源**的致命割裂：攻击者可手动构造恶意 calldata，在校验偏移位置放置合法授权函数选择器（`withdraw`）骗过权限检测，在真实执行区域放置高危未授权函数（`sweepFunds`），实现完全权限绕过。  
+出问题的源代码:
+```solidity
+function execute(address target, bytes calldata actionData) external nonReentrant returns (bytes memory) {
+    // Read the 4-bytes selector at the beginning of `actionData`
+    bytes4 selector;
+    uint256 calldataOffset = 4 + 32 * 3; // calldata position where `actionData` begins
+    //自以为要读取 actionData 最开头的函数选择器,实际上固定读取整个交易 calldata 的第 100 字节位置（4+32*3=100）
+    assembly {
+        selector := calldataload(calldataOffset); // 漏洞在这里
+    }
+
+    if (!permissions[getActionId(selector, msg.sender, target)]) {
+        revert NotAllowed();
+    }
+
+    _beforeFunctionCall(target, actionData);
+
+    return target.functionCall(actionData); // 实际执行这里
+}
+```
 
 ### 2\. 自调用防护机制失效
 
