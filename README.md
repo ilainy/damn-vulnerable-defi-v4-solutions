@@ -3,6 +3,8 @@ Solutions &amp; Writeups for Damn Vulnerable DeFi (Official), the most popular W
 
 Complete solutions, exploit PoCs and detailed writeups for the official Damn Vulnerable DeFi challenges.
 
+Elaborate test & exploit code for some hard challenges is placed in their respective folders.
+
 ## Overview
 - Real-world DeFi vulnerability analysis
 - Solidity exploit development & PoC reproduction
