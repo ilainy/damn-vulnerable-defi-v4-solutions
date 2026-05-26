@@ -26,8 +26,31 @@
 
 合约`fill`购买碎片的核心计价逻辑存在致命整数下溢漏洞，用户应付金额计算公式为：`want.mulDivDown(_toDVT(offer.price, _currentRate), offer.totalShards)`。合约采用**mulDivDown向下取整**定点运算，在题目固定参数下，单次购买少量碎片（≤133）时，分子数值远小于分母，运算结果直接向下取整为0。
 
-这意味着攻击者可以**0 DVT成本免费购买NFT碎片**，合约无任何扣费拦截、无余额校验、无交易风控，直接完成碎片确权，形成无成本资产获取漏洞。
+这意味着攻击者可以**0 DVT成本免费购买NFT碎片**，合约无任何扣费拦截、无余额校验、无交易风控，直接完成碎片确权，形成无成本资产获取漏洞。  
+出错代码位置:
+```solodity
+function fill(uint64 offerId, uint256 want) external returns (uint256 purchaseIndex) {
+    Offer storage offer = offers[offerId];
+    // 省略部分参数校验...
 
+    // 漏洞点
+    paymentToken.transferFrom(
+        msg.sender, 
+        address(this), 
+        // mulDivDown 向下取整 → 小额 want 直接算出来 = 0
+        want.mulDivDown(_toDVT(offer.price, _currentRate), offer.totalShards)
+    );
+
+    // 记录购买、扣库存
+    if (offer.stock == 0) _closeOffer(offerId);
+}
+
+// 辅助计算函数，无校验兜底
+function _toDVT(uint256 _value, uint256 _rate) private pure returns (uint256) {
+    return _value.mulDivDown(_rate, 1e6);
+}
+
+```
 ### 2\. 退款机制无成本套利闭环
 
 平台`cancel`取消订单逻辑存在严重风控缺失：用户取消购买订单时，合约会按照**历史购买汇率、真实碎片数量**计算退款金额，全额返还DVT代币。攻击者免费购入碎片后，在可取消窗口期内撤销订单，无需付出任何成本，即可套现等值DVT，形成「零成本购碎片→撤销订单→套现资金」的完整套利闭环。
