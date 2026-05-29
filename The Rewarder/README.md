@@ -69,9 +69,6 @@ if (i == inputClaims.length - 1) {
 
 ```solidity
 function test_theRewarder() public checkSolvedByPlayer {
-    // 时间跳跃，解除合约分发时间限制
-    vm.warp(block.timestamp + 1 days);
-
     // 循环外一次性加载默克尔叶子节点，解决MemoryOOG内存溢出
     bytes32[] memory dvtLeaves = _loadRewards("/test/the-rewarder/dvt-distribution.json");
     bytes32[] memory wethLeaves = _loadRewards("/test/the-rewarder/weth-distribution.json");
