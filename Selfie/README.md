@@ -49,7 +49,7 @@ function _canBeExecuted(uint256 actionId) private view returns (bool) {
 
 3\. 资金池高危特权提款函数（仅治理合约可调用，无额外风控）
 
-```Plain Text
+```solidity
 // 治理专属紧急提款，调用即可清空池子全部资产
 function emergencyExit(address receiver) external onlyGovernance {
     uint256 amount = token.balanceOf(address(this));
