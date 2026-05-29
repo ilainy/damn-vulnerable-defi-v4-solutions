@@ -6,7 +6,7 @@
 
 题目目标：利用合约漏洞，窃取合约内所有未领取奖励，将全部资金转账至指定的 `recovery` 账户。
 
-## 二、审计扫题视角：漏洞定位
+## 二、审计视角：漏洞定位
 
 ### 2\.1 核心代码
 
@@ -19,6 +19,12 @@ bytes32 leaf = keccak256(abi.encodePacked(msg.sender, inputClaim.amount));
 if (!MerkleProof.verify(inputClaim.proof, root, leaf)) revert InvalidProof();
 // 直接向调用者转账
 inputTokens[inputClaim.tokenIndex].transfer(msg.sender, inputClaim.amount);
+```
+```solidity
+// 第二处：仅对最后一条申领记录执行防重复领取校验
+if (i == inputClaims.length - 1) {
+    if (!_setClaimed(token, amount, wordPosition, bitsSet)) revert AlreadyClaimed();
+}
 ```
 
 ### 2\.2 开发者错误默认逻辑
