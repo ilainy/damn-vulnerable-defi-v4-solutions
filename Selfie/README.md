@@ -14,7 +14,7 @@
 
 1\. 治理提案投票权限校验（仅提案提交瞬间校验，全程仅一次鉴权，核心漏洞点）
 
-```Plain Text
+```solidity
 // queueAction：仅提交提案时调用 _hasEnoughVotes 校验投票权，执行阶段无校验
 function queueAction(address target, uint128 value, bytes calldata data) external returns (uint256 actionId) {
     // 【致命漏洞】仅提案提交瞬间校验投票权重
@@ -34,7 +34,7 @@ function _hasEnoughVotes(address who) private view returns (bool) {
 
 2\. 提案执行校验逻辑（无二次权限校验，仅校验时间与执行状态）
 
-```Plain Text
+```solidity
 // 执行提案仅校验：是否未执行、是否满足时间锁，完全不校验用户投票权
 function _canBeExecuted(uint256 actionId) private view returns (bool) {
     GovernanceAction memory actionToExecute = _actions[actionId];
