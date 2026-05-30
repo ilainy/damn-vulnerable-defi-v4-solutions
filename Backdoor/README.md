@@ -58,7 +58,9 @@ SafeTransferLib.safeTransfer(address(token), walletAddress, PAYMENT_AMOUNT);
 
 **致命漏洞代码行**：`proxyCreated` 函数中仅校验初始化方法签名，完全放任 `setup` 内部自定义的委托调用逻辑：
 
-`if (bytes4(initializer[:4]) != Safe.setup.selector) { revert InvalidInitialization(); }`
+```solidity
+if (bytes4(initializer[:4]) != Safe.setup.selector) { revert InvalidInitialization(); }
+```
 
 **漏洞本质**：
 
