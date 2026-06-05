@@ -29,7 +29,7 @@ Safe 钱包的 `setup` 初始化函数支持自定义**委托调用（delegateca
 以下为**触发漏洞的核心出错代码片段**，仅展示高危缺失校验的关键行数：
 
 ```solidity
-// 漏洞所在：WalletRegistry.proxyCreated 校验逻辑
+// 漏洞：WalletRegistry.proxyCreated 校验逻辑
 // 仅校验是否调用了setup，完全不校验setup内部恶意delegatecall数据
 if (bytes4(initializer[:4]) != Safe.setup.selector) {
     revert InvalidInitialization();
