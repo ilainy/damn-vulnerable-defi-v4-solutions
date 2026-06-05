@@ -38,7 +38,7 @@
 
 ### 1\. 定向搜索业务关键词
 
-闪电贷题目关键词：`flashFee`、`flashLoan`、`\_msgSender`、`multicall`
+闪电贷题目关键词：`flashFee`、`flashLoan`、`_msgSender`、`multicall`
 
 ### 2\. 逐一定位高危代码与思考推导
 
