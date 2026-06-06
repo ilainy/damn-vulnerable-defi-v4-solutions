@@ -27,12 +27,11 @@
 
 该漏洞属于致命逻辑缺陷：攻击者可直接调用 execute 执行任意治理操作，在执行过程中完成权限篡改、延迟清零、所有权转移，最后通过合约内回调完成 schedule 提案登记，绕过所有前置校验。
 
-### 2\. 漏洞代码
+### 2\. 代码
 
-`ClimberTimelock.sol 89-104行` 核心漏洞，官方源码时序倒置，彻底破坏时间锁安全模型：
+时序倒置，彻底破坏时间锁安全模型：
 
 ```solidity
-// ClimberTimelock.sol 89-104 
 function execute(...) external payable {
     // 校验参数长度
     if (targets.length <= MIN_TARGETS) { revert InvalidTargetsCount(); }
