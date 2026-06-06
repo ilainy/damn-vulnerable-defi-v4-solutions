@@ -2,7 +2,7 @@
 
 ## 一、题目简介
 
-本题目围绕**时间锁合约执行逻辑漏洞 + UUPS 可升级代理权限绕过**展开，是典型的 DeFi 权限逃逸与代理升级攻击考点。项目部署了可升级金库合约 `ClimberVault`，金库所有权与治理权限交由 `ClimberTimelock` 时间锁合约托管，用于管控金库资产与合约升级。
+本题目围绕**时间锁合约执行逻辑漏洞 + UUPS 可升级代理权限绕过**展开，是 DeFi 权限逃逸与代理升级攻击考点。项目部署了可升级金库合约 `ClimberVault`，金库所有权与治理权限交由 `ClimberTimelock` 时间锁合约托管，用于管控金库资产与合约升级。
 
 时间锁合约原本设计了提案权限、执行延迟双重风控，仅授权指定 proposer 发起提案、延时执行治理操作，以此保障金库资产安全。题目核心目标为：利用时间锁合约**先执行、后校验**的逻辑漏洞，夺取金库完整所有权，通过升级代理合约植入恶意提款逻辑，**清空金库全部 10,000,000 DVT 代币**并转入回收账户，完成通关。
 
@@ -32,7 +32,7 @@
 `ClimberTimelock.sol 89-104行` 核心漏洞，官方源码时序倒置，彻底破坏时间锁安全模型：
 
 ```solidity
-// ClimberTimelock.sol 89-104 漏洞源码
+// ClimberTimelock.sol 89-104 
 function execute(...) external payable {
     // 校验参数长度
     if (targets.length <= MIN_TARGETS) { revert InvalidTargetsCount(); }
@@ -111,7 +111,7 @@ function _authorizeUpgrade(address newImplementation) internal override onlyOwne
 
 5. **代理升级安全假设**：默认 owner 权限可控，不会被攻击者夺取并恶意升级合约。
 
-## 四、同类项目通用审计盯点
+## 四、同类项目通用审计
 
 1. **时间锁合约时序审计**：严格校验 execute/schedule 执行顺序，必须先提案、后执行，禁止反向绕过逻辑。
 
