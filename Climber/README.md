@@ -84,7 +84,7 @@ function _authorizeUpgrade(address newImplementation) internal override onlyOwne
 
 **漏洞影响**：攻击者夺取金库 owner 权限后，可部署恶意实现合约、植入自定义提款后门，清空合约所有资产。
 
-### 5\. 汇总致命缺陷
+### 5\. 汇总问题
 
 时间锁的 `grantRole`、`updateDelay`、`transferOwnership` 均为高危治理函数，但合约未做调用身份强校验：
 
