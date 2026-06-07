@@ -40,7 +40,7 @@ function execute(...) external payable {
 
     bytes32 id = getOperationId(...);
 
-    // 核心漏洞：先执行外部调用，再校验操作状态
+    // 核心：先执行外部调用，再校验操作状态
     for (uint8 i = 0; i < targets.length; ++i) {
         targets[i].functionCallWithValue(dataElements[i], values[i]);
     }
