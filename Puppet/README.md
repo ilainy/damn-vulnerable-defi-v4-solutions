@@ -52,7 +52,7 @@ function calculateDepositRequired(uint256 amount) public view returns (uint256) 
 
 4. **隐藏业务限制未公示**：测试代码内置「玩家仅可发起一次交易」的校验，无题目说明，属于隐性考点。
 
-## 四、同类项目通用审计盯点（重点）
+## 四、同类项目通用审计盯点
 
 1. **预言机选型必查**：借贷、清算类核心金融逻辑，禁止直接使用 Uniswap V1/V2 瞬时余额价格，极易引发价格操纵攻击。
 
