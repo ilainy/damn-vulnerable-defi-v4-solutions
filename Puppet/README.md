@@ -100,7 +100,7 @@ function calculateDepositRequired(uint256 amount) public view returns (uint256) 
 
 ```solidity
 function test_puppet() public checkSolvedByPlayer {
-    // 题目隐藏校验：仅可执行一次交易
+    // 题目隐藏校验，仅可执行一次交易
     vm.setNonce(player, 1); 
 
     // 1. 授权代币给uniswapV1交易所
