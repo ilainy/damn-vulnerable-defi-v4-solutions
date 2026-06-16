@@ -62,7 +62,7 @@ function calculateDepositRequired(uint256 amount) public view returns (uint256) 
 
 5. **关注隐性交易限制**：DeFi CTF 及真实项目中，需额外校验账户 nonce、交易次数、权限范围等隐性校验规则。
 
-## 五、完整解题思路
+## 五、解题思路
 
 1. **砸盘操纵价格**：玩家使用自身持有的 1000 DVT，在 Uniswap V1 池子完成代币兑换，利用池子极低流动性，将 DVT 代币价格砸至趋近于 0。
 
