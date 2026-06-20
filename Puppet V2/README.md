@@ -57,7 +57,7 @@ function calculateDepositOfWETHRequired(uint256 tokenAmount) public view returns
 
 4. **无兜底安全设计**：未增加流动性校验、价格熔断、借贷限额等多层风控机制。
 
-## 四、同类项目通用审计盯点（重点）
+## 四、同类项目通用审计盯点
 
 1. **预言机核心禁忌**：所有借贷、清算、杠杆类金融合约，**禁止使用 Uniswap V1/V2 瞬时储备作为价格预言机**。
 
@@ -69,7 +69,7 @@ function calculateDepositOfWETHRequired(uint256 tokenAmount) public view returns
 
 5. **多层风控兜底**：抵押倍率、价格熔断、单笔限额、多预言机交叉校验缺一不可。
 
-## 五、完整解题思路
+## 五、解题思路
 
 1. **资产转换**：合约仅支持 WETH 抵押，首先将玩家原生 ETH 兑换为 WETH。
 
@@ -95,7 +95,7 @@ function calculateDepositOfWETHRequired(uint256 tokenAmount) public view returns
 
 **解决方案**：删除冗余变量，精简代码。
 
-## 七、完整可通关 EXP（零报错、官方适配）
+## 七、EXP
 
 ```solidity
 function test_puppetV2() public checkSolvedByPlayer {
