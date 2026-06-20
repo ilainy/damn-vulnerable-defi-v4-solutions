@@ -49,7 +49,7 @@ function calculateDepositOfWETHRequired(uint256 tokenAmount) public view returns
 
 ## 三、开发者默认安全假设
 
-1. **工具迷信**：错误认为升级 Uniswap V2 \+ 使用官方标准库，即可杜绝价格操纵漏洞。
+1. **工具迷信**：误以为升级 Uniswap V2 + 使用官方标准库，即可杜绝价格操纵漏洞。
 
 2. **机制认知缺失**：不理解 Uniswap V2 瞬时储备价格依旧可被操纵，未区分「瞬时价格」与「TWAP 加权价格」。
 
