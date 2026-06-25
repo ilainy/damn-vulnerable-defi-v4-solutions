@@ -23,7 +23,18 @@
 ### 1\. 核心高危漏洞：TWAP 滞后性可控价格操纵
 
 开发者错误认为 TWAP 价格绝对安全，固定选取 **过去10分钟的价格加权均值** 作为定价依据。TWAP 机制的特性是**价格更新存在严重滞后性**，不会实时跟随市场价格变动。攻击者可以通过大额交易瞬间砸低现货价格，再通过时间流逝，让恶意低价逐步纳入 TWAP 加权计算，最终篡改预言机全局价格。
-
+```solidity
+function _getOracleQuote(uint128 amount) private view returns (uint256) {
+    // 取过去10分钟的TWAP均价
+    (int24 arithmeticMeanTick,) = OracleLibrary.consult({pool: address(uniswapV3Pool), secondsAgo: TWAP_PERIOD});
+    return OracleLibrary.getQuoteAtTick({
+        tick: arithmeticMeanTick,
+        baseAmount: amount,
+        baseToken: address(token),
+        quoteToken: address(weth)
+    });
+}
+```
 漏洞核心：TWAP 只能防御**瞬时单区块**价格攻击，无法防御**持续一段时间的稳态低价攻击**。
 
 ### 2\. 抵押风控完全依赖可滞后操控预言机
