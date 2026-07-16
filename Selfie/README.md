@@ -12,7 +12,7 @@
 
 漏洞横跨 **SimpleGovernance**治理校验逻辑与 **DamnValuableVotes** 投票权统计逻辑，关键脆弱代码逻辑：
 
-1\. 治理提案投票权限校验（仅提案提交瞬间校验，全程仅一次鉴权，核心漏洞点）
+1\. 治理提案投票权限校验（仅提案提交瞬间校验，全程仅一次鉴权）
 
 ```solidity
 // queueAction：仅提交提案时调用 _hasEnoughVotes 校验投票权，执行阶段无校验
