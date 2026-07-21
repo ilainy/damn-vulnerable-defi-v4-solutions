@@ -43,7 +43,7 @@ function _canBeExecuted(uint256 actionId) private view returns (bool) {
     unchecked {
         timeDelta = uint64(block.timestamp) - actionToExecute.proposedAt;
     }
-    return actionToExecute.executedAt == 0 &amp;&amp; timeDelta &gt;= ACTION_DELAY_IN_SECONDS;
+    return actionToExecute.executedAt == 0 && timeDelta >= ACTION_DELAY_IN_SECONDS;
 }
 ```
 
