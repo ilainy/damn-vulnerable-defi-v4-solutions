@@ -167,7 +167,7 @@ function test_compromised() public checkSolvedByPlayer {
     nft.approve(address(exchange), tokenId);
     exchange.sellOne(tokenId);
 
-    // 资金转入回收账户，完成题目
+    // 资金转入回收账户
     payable(recovery).transfer(EXCHANGE_INITIAL_ETH_BALANCE);
     vm.stopPrank();
 }
