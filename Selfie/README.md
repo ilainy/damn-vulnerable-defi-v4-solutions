@@ -17,7 +17,7 @@
 ```solidity
 // queueAction：仅提交提案时调用 _hasEnoughVotes 校验投票权，执行阶段无校验
 function queueAction(address target, uint128 value, bytes calldata data) external returns (uint256 actionId) {
-    // 漏洞:仅提案提交瞬间校验投票权重
+    // 仅提案提交瞬间校验投票权重
     if (!_hasEnoughVotes(msg.sender)) {
         revert NotEnoughVotes(msg.sender);
     }
