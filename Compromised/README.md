@@ -148,7 +148,7 @@ function test_compromised() public checkSolvedByPlayer {
     vm.prank(source2);
     oracle.postPrice(sym, 0);
 
-    // 玩家白嫖买入（price=0，0.1 ETH绰绰有余）
+    // 玩家买入（price=0，0.1 ETH绰绰有余）
     vm.prank(player);
     uint256 tokenId = exchange.buyOne{value: PLAYER_INITIAL_ETH_BALANCE}();
 
