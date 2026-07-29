@@ -1,7 +1,7 @@
 # Curvy Puppet  
 ## 一、题目简介
 
-本题是 DeFi 综合漏洞题，核心考察**Curve 只读重入（Read Only Reentrancy）+ 双闪电贷价格操纵 + 预言机价格依赖漏洞**。
+DeFi 综合漏洞，考察**Curve 只读重入（Read Only Reentrancy）+ 双闪电贷价格操纵 + 预言机价格依赖漏洞**。
 
 题目设定了一套基于 Curve stETH/ETH 池的借贷系统：用户质押 DVT 代币作为抵押，借出 Curve LP 代币；合约通过 Curve 池的 `virtual_price` 计算 LP 代币价值，判断用户头寸是否可清算。系统设计上要求用户超额抵押、价格预言机受限，开发者认为头寸绝对安全。
 
