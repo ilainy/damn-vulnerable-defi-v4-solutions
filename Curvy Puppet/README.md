@@ -25,7 +25,7 @@ Curve stETH/ETH 池 remove_liquidity 时序：
 
 借贷合约完全依赖 `virtual_price` 计算借款价值，攻击者可利用该中间状态，让 LP 代币估值暴增，直接击穿用户抵押率，触发清算。
 问题代码CurvyPuppetLending.sol:  
-```solodity
+```solidity
 function _getLPTokenPrice() private view returns (uint256) {
         return oracle.getPrice(curvePool.coins(0)).value.mulWadDown(curvePool.get_virtual_price());
     }
@@ -39,7 +39,7 @@ function _getLPTokenPrice() private view returns (uint256) {
 
 仅校验`borrowValue > collateralValue` 即可清算，未校验价格来源合法性、未校验池子状态一致性。
 问题代码（CurvyPuppetLending.sol）:  
-```solodity
+```solidity
 function liquidate(address target) external nonReentrant {
 // 自带nonReentrant，仅防御函数自递归，缺少价格合法性校验、Curve池子状态一致性校验，存在只读重入风险
     uint256 borrowAmount = positions[target].borrowAmount;
@@ -72,7 +72,7 @@ function liquidate(address target) external nonReentrant {
 
 合约信任 Curve 原生 `virtual_price` 作为权威价格源，未做价格平滑、时间加权、波动校验，允许瞬时恶意操控的虚假价格进入清算逻辑。
 问题代码（CurvyPuppetLending.sol）:  
-```solodity
+```solidity
 function getBorrowValue(uint256 amount) public view returns (uint256) {
     if (amount == 0) return 0;
     // 直接使用瞬时价格计算借款价值
