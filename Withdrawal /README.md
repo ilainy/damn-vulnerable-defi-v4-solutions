@@ -107,7 +107,7 @@ function finalizeWithdrawal(
 
 ## 五、EXP
 
-```solodity
+```solidity
 function test_withdrawal() public checkSolvedByPlayer {
      //伪造提款消息（利用 L1Forwarder 包装 TokenBridge 的提款操作） 
 
