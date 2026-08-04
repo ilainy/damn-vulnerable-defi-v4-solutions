@@ -34,7 +34,7 @@ SafeProxyFactory 的 `createProxyWithNonce` 部署逻辑遵循 CREATE2 地址计
 
 由于部署者地址（proxyFactory）、SafeProxy 字节码、初始化数据均可完全可控，仅需暴力遍历 salt 即可碰撞出**任意指定目标地址**。题目中巨额代币存放的空白地址无任何合约、无权限锁定，一旦部署可控 Safe 代理合约，即可完全掌控该地址资产。  
 对应漏洞代码-WalletDeployer.sol文件  
-```solodity
+```solidity
 function drop(address aim, bytes memory wat, uint256 num) external returns (bool) {
     // 仅校验授权，未校验部署地址是否为敏感资产地址
     if (mom != address(0) && !can(msg.sender, aim)) {
@@ -55,7 +55,7 @@ function drop(address aim, bytes memory wat, uint256 num) external returns (bool
 
 漏洞本质：授权合约初始化逻辑未做防重入、防重置保护，已部署状态下仍可被任意账户重置权限，彻底破坏原有访问控制体系。  
 对应漏洞代码-AuthorizerUpgradeable.sol文件  
-```solodity
+```solidity
 function init(address[] memory _wards, address[] memory _aims) external {
     // 无任何权限校验，任何人都能调用
     require(needsInit != 0, "cannot init");
@@ -73,7 +73,7 @@ function init(address[] memory _wards, address[] memory _aims) external {
 
 在成功部署 Safe 钱包后，可通过合法签名调用 `execTransaction` 执行转账，无任何签名绕过、权限校验障碍，直接提空合约余额。  
 对应漏洞代码-Safe官方逻辑  
-```solodity
+```solidity
 function execTransaction(
     address to,
     uint256 value,
@@ -92,7 +92,7 @@ function execTransaction(
 
 钱包部署合约`drop` 函数仅校验 Authorizer 授权规则，无额外部署者身份、调用链路校验。攻击者重置授权权限后，可任意调用 drop 函数，传入碰撞好的 salt 与初始化数据，精准在目标地址部署合约。  
 对应漏洞代码-WalletDeployer.sol文件  
-```solodity
+```solidity
 function can(address u, address a) public view returns (bool y) {
     assembly {
         let m := sload(0)
