@@ -35,7 +35,7 @@ function _getLPTokenPrice() private view returns (uint256) {
     }
 ```
 
-### 2\. 借贷合约清算逻辑无重入防护
+### 2\. 只读重入不受现有重入锁防护
 
 清算函数自带 nonReentrant，但无法防御只读重入。合约无条件信任 Curve 瞬时 virtual_price，未校验池子状态一致性，攻击者可在池子转账回调的中间状态读取被篡改的虚假价格，触发非法清算。
 
