@@ -92,7 +92,7 @@ function getBorrowValue(uint256 amount) public view returns (uint256) {
 
 3. **超额抵押绝对安全**：用户 300%+ 超额抵押，开发者默认不可能触发清算条件。
 
-4. **池子操作无回调风险**：忽略 remove_liquidity 执行间隙的外部调用机会，未做防重入防护。
+4. **池子操作无回调风险**：忽略 remove_liquidity 执行间隙的外部调用机会，虽然清算函数具备重入锁，但锁无法抵御只读重入场景。
 
 ## 四、同类项目审计点
 
