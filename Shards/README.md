@@ -28,7 +28,7 @@
 
 这意味着攻击者可以**0 DVT成本免费购买NFT碎片**，合约无任何扣费拦截、无余额校验、无交易风控，直接完成碎片确权，形成无成本资产获取漏洞。  
 出错代码位置:
-```solodity
+```solidity
 function fill(uint64 offerId, uint256 want) external returns (uint256 purchaseIndex) {
     Offer storage offer = offers[offerId];
     // 省略部分参数校验...
