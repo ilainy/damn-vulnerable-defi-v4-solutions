@@ -109,9 +109,9 @@ function getBorrowValue(uint256 amount) public view returns (uint256) {
 
 1. **前置准备**：从国库取出题目给予的 200 WETH、6.5 LP 代币，作为攻击启动资金。
 
-2. **第一层闪电贷借力**：调用 Balancer 零手续费闪电贷，借入大额 WETH，补齐操作资金缺口。
+2. **第一层闪电贷**：调用 Balancer 零手续费闪电贷，借入大额 WETH，补齐操作资金缺口。
 
-3. **第二层闪电贷控盘**：调用 Aave 闪电贷借入海量 WETH、stETH，向 Curve 池添加巨额流动性。
+3. **第二层闪电贷**：调用 Aave 闪电贷借入海量 WETH、stETH，向 Curve 池添加巨额流动性。
 
 4. **触发只读重入**：执行 remove_liquidity，利用销毁 LP 后、状态更新前的回调间隙，恶意抬高 virtual_price。
 
