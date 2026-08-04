@@ -169,10 +169,6 @@ interface ILido {
     function withdraw(uint256 amount, address receiver) external;
 }
 
-interface IEulerDToken {
-    function flashLoan(uint256 amount, bytes calldata data) external;
-}
-
 interface IBalancer {
     function flashLoan(
         address recipient,
@@ -241,8 +237,6 @@ contract Hack {
     IERC20 constant stETH = IERC20(0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84);
     address public constant AAVE_LENDING_POOL = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
     address constant balancerAddress = 0xBA12222222228d8Ba445958a75a0704d566BF2C8;
-    address constant dTokenAddress = 0x62e28f054efc24b26A794F5C1249B6349454352C;
-    IEulerDToken constant dToken = IEulerDToken(dTokenAddress);
 
     constructor(
         address _lending, address _weth, address _dvt, address _curvePool, address _permit2,
