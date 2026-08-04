@@ -15,17 +15,13 @@ DeFi 综合漏洞，考察**Curve 只读重入（Read Only Reentrancy）+ 双闪
 
 ### 1\. 核心漏洞：Curve 只读重入（Read-Only Reentrancy）
 
-Curve 稳定池 `remove_liquidity` 存在经典执行顺序漏洞：
+Curve stETH/ETH 池 remove_liquidity 时序：  
+1.销毁用户 LP Token  
+2.向用户转账 ETH /stETH（触发外部回调）  
+3.更新池子内部资产余额存储  
+4.get_virtual_price() 计算公式：virtual_price = pool_total_assets / totalSupply  
 
-**执行顺序：先销毁 LP 代币 → 再更新池子余额、刷新 virtual_price**
-
-在销毁 LP 之后、池子状态更新之前，合约会触发外部回调，此时：
-
-- LP 总供应量 `totalSupply` 已经减少
-
-- 池子内 ETH/stETH 余额尚未变化
-
-- `virtual_price` 被异常拉高
+回调触发时，totalSupply 已经变小，池子存储内资产余额还未扣减，分母变小、分子不变 → virtual_price 瞬时飙升。  
 
 借贷合约完全依赖 `virtual_price` 计算借款价值，攻击者可利用该中间状态，让 LP 代币估值暴增，直接击穿用户抵押率，触发清算。
 问题代码CurvyPuppetLending.sol:  
