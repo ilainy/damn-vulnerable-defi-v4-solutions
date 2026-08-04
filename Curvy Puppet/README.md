@@ -45,7 +45,7 @@ function _getLPTokenPrice() private view returns (uint256) {
 问题代码（CurvyPuppetLending.sol）:  
 ```solodity
 function liquidate(address target) external nonReentrant {
-// 自带nonReentrant，仅防御函数自递归；缺少价格合法性校验、Curve池子状态一致性校验，存在只读重入风险
+// 自带nonReentrant，仅防御函数自递归，缺少价格合法性校验、Curve池子状态一致性校验，存在只读重入风险
     uint256 borrowAmount = positions[target].borrowAmount;
     uint256 collateralAmount = positions[target].collateralAmount;
 
