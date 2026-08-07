@@ -35,7 +35,7 @@ salt = keccak256(abi.encodePacked(keccak256(initializer), saltNonce))
 
 ```plaintext
 proxyAddress = keccak256(0xff + 部署者地址 + salt + 合约字节码哈希)[12:]
-// [12:]：丢弃哈希前12字节，取后20字节作为以太坊地址
+// [12:]丢弃哈希前12字节，取后20字节作为以太坊地址
 ```
 
 由于部署者地址（proxyFactory）、SafeProxy 字节码、初始化数据均可完全可控，仅需暴力遍历 salt 即可碰撞出**任意指定目标地址**。题目中巨额代币存放的空白地址无任何合约、无权限锁定，一旦部署可控 Safe 代理合约，即可完全掌控该地址资产。  
