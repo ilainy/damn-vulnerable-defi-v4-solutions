@@ -26,11 +26,17 @@
 
 ### 1\. 核心高危漏洞：CREATE2 地址完全可控（钱包挖矿核心）
 
-题目核心设计缺陷为：Safe 钱包部署地址**完全由初始化数据 + salt 盐值决定**，攻击者可离线暴力枚举 salt，精准命中预设的目标空白地址。
+题目核心设计缺陷为：Safe 钱包部署地址**完全由初始化数据 + salt 盐值决定**。但**传入参数 saltNonce ≠ CREATE2 底层 salt**。  
+合约内部先复合计算出底层 salt：  
+```solidity
+salt = keccak256(abi.encodePacked(keccak256(initializer), saltNonce))
+```
+再带入标准 CREATE2 地址公式运算：  
 
-SafeProxyFactory 的 `createProxyWithNonce` 部署逻辑遵循 CREATE2 地址计算公式：
-
-`proxyAddress = keccak256(0xff + 部署者地址 + keccak(initData + salt) + 合约字节码哈希)`
+```plaintext
+proxyAddress = keccak256(0xff + 部署者地址 + salt + 合约字节码哈希)[12:]
+// [12:]：丢弃哈希前12字节，取后20字节作为以太坊地址
+```
 
 由于部署者地址（proxyFactory）、SafeProxy 字节码、初始化数据均可完全可控，仅需暴力遍历 salt 即可碰撞出**任意指定目标地址**。题目中巨额代币存放的空白地址无任何合约、无权限锁定，一旦部署可控 Safe 代理合约，即可完全掌控该地址资产。  
 对应漏洞代码-WalletDeployer.sol文件  
